@@ -44,11 +44,17 @@ const fetchIssues = () => {
   for (var i = 0; i < issues.length; i++) {
     const { id, description, severity, assignedTo, status } = issues[i];
 
+    let strike_text = ``;
+    if (status === 'Open') {
+      strike_text = `<h3>${description}</h3>`;
+    }
+    else {
+      strike_text = `<h3><del> ${description} </del></h3>`;
+    }
+
     issuesList.innerHTML += `<div class="well">
                               <h6>Issue ID: ${id} </h6>
-                              <p><span class="label label-info"> ${status} </span></p>
-                              <h3> ${description} </h3>
-                              <p><span class="glyphicon glyphicon-time"></span> ${severity}</p>
+                              <p><span class="label label-info"> ${status} </span></p>` + strike_text + `<p><span class="glyphicon glyphicon-time"></span> ${severity}</p>
                               <p><span class="glyphicon glyphicon-user"></span> ${assignedTo}</p>
                               <a onclick="setStatusClosed(${id})" class="btn btn-warning">${status === 'Open' ? 'Closed' : 'Open'}</a>
                               <a  onclick="deleteIssue(${id})" class="btn btn-danger">Delete</a>
